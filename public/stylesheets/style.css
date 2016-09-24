@@ -1,0 +1,36 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+p {
+  color: red;
+}
+
+#mymsg{
+  background-color: yellow;
+  float:right;
+  padding : 2%;
+  border:1px solid grey;
+  border-radius: 20px;
+}
+
+
+#othermsg{
+  background-color: pink;
+  float:left;
+  padding:2%;
+  border:1px solid grey;
+  border-radius: 20px;
+}
+
+
+#msgText{
+  padding :2%;
+}
+
+#msgList{
+
+  height:80%;
+  border:2px solid black;
+  overflow:auto;
+}
