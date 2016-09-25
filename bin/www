@@ -28,12 +28,15 @@ var server = http.createServer(app);
 var ioConn = io.listen(server);
 
 ioConn.on('connection' , function(socket){
-  console.log("--------------------------------------User is connected--------");
+  console.log("-----------------User is connected--------");
 
   socket.on('disconnect', function(){
-    console.log("*************************** User DISCONNECTED************");
+    console.log("*************** User DISCONNECTED************");
   });  // on disconnect
 
+/*
+    receiving messages
+*/
   socket.on('message', function(msg){
     console.log('message: ' + msg);
     socket.broadcast.emit('receiveMsg',msg);

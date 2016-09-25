@@ -1,10 +1,10 @@
 <html>
   <head>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <link rel ='stylesheet' href='/stylesheets/maxcdn.bootstrapcdn.css'>
     <link rel='stylesheet' href='/stylesheets/style.css'>
+
+    <script src='/javascripts/ajax.googleapis.js' type='text/javascript'></script>
+    <script src='javascripts/maxcdn.bootstrapcdn.js' type='text/javascript'></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/jquery-3.1.0.min.js" type="text/javascript"></script>
     <script>
@@ -14,8 +14,8 @@
 
 
   <body>
-    <div class="row">
-      <center>Chat Messenger</center><br><br>
+    <div class="row"><br>
+      <center>Chat Messenger</center><br>
       <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12"></div>
 
       <div id="chatBox" class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -41,7 +41,7 @@
         var myMsg = $('#message').val()
         socket.emit('message',$('#message').val());
         $('#message').val('');
-        $('#msgText').append("<div id='mymsg'  class='clearfix'>"+myMsg+"</div><br><br>");
+        $('#msgText').append("<div id='mymsg'  class='clearfix'>"+myMsg+"</div><br><br><br>");
         return false;
       });
 
@@ -64,7 +64,7 @@
 
       // receive text messages
       socket.on('receiveMsg',function(msg) {
-            $('#msgText').append("<div id='othermsg' class='clearfix'>"+msg+"</div><br><br>");
+            $('#msgText').append("<div id='othermsg' class='clearfix'>"+msg+"</div><br><br><br>");
       });
 
       // user is typing msg
@@ -74,7 +74,7 @@
 
       //no typing null msg
       socket.on('receiveNoTyping',function(msg){
-          $('#msgSignal').html(msg);
+          $('#msgSignal').html("");
       });
 
 

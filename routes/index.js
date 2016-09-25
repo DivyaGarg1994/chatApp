@@ -12,10 +12,8 @@ router.get('/priya', function(req, res, next) {
 
 
 router.get('/priya/:id', function(req, res, next) {
-  res.send("sssss");
+  res.send(request.params.id);
 });
-
-
 
 
 module.exports = router;

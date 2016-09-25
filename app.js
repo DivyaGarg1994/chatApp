@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var chat = require('./routes/chat');
-var pass = require('./routes/pass');
 
 var app = express();
 
@@ -16,12 +15,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html' , require('ejs').renderFile);
 app.set('view engine', 'html');
-
-
-// Configuring Passport
-var passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 // uncomment after placing your favicon in /public
@@ -35,6 +28,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/chat',chat);
+
+//passport setup
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
