@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('chatApp:server');
 var http = require('http');
-var io = require('socket.io');
+
 
 /**
  * Get port from environment and store in Express.
@@ -25,34 +25,9 @@ var server = http.createServer(app);
 /**
 * socket io connections
 */
-var ioConn = io.listen(server);
 
-ioConn.on('connection' , function(socket){
-  console.log("-----------------User is connected--------");
-
-  socket.on('disconnect', function(){
-    console.log("*************** User DISCONNECTED************");
-  });  // on disconnect
-
-/*
-    receiving messages
-*/
-  socket.on('message', function(msg){
-    console.log('message: ' + msg);
-    socket.broadcast.emit('receiveMsg',msg);
-  });
-
-  socket.on('typing', function(msg){
-    console.log('Typemessage: ' + msg);
-    socket.broadcast.emit('receiveTyping',msg);
-  });
-
-  socket.on('notyping', function(msg){
-    console.log('Typemessage: ' + msg);
-    socket.broadcast.emit('receiveNoTyping',msg);
-  });
-
-}); // on connect
+var ioConn = require('socket.io').listen(server);
+require('../socket/chatSocket')(ioConn);
 
 
 /**

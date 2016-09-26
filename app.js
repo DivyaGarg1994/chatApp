@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,32 +26,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+// app.use('/', routes);
+app.use('/', users);
 app.use('/chat',chat);
 
-//passport setup
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+var loggedUser = ["divya"];
 
-app.use(passport.initialize());
-app.use(passport.session());
+//mongo db connection established
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/collaba');
+
+  var db = mongoose.connection;
+  db.on('error', console.error.bind(console,"connection error:"));
+  db.once('open',function(){
+    console.log("connected");
+  });
 
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
