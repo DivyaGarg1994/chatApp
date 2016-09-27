@@ -9,7 +9,21 @@ router.get('/', function(req, res, next) {
 
 router.get('/user',function(req,res,next){
   var name = req.query.username;
-//  console.log(name);
   res.render('index');
 });
+
+router.get('/singleChat',function(req,res,next){
+  var id = req.query.uid;
+  console.log("------------");
+  console.log("id=="+id);
+  res.send("jjj");
+});
+
+router.get('/download', function(req,res,next){
+    var file = req.query.filenames;
+    console.log(file);
+  //  res.download('__dirname/file', 'report.pdf');
+    res.send("-------");
+});
+
 module.exports = router;
