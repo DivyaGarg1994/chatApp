@@ -96,10 +96,14 @@ module.exports = function(ioConn){
     ss(socket).on("file",function(stream,data){
 
       var filename = path.basename(data.name);
-      stream.pipe(fs.createWriteStream(filename));
-      var msg = '<a href="/chat/download?filenames='+filename+' class="download" link='+filename+'>'+filename+'</a>';
-      socket.to(data.sender).emit('receiveMsg',msg);
-      saveData(data.sender , data.receiver , filename);
+      stream.pipe(fs.createWriteStream('public/uploads/'+filename));
+    //  var msg = '<a href="/chat/download?filenames='+filename+'">'+filename+'</a>';
+
+        stream.on('finish', function(){
+            var msg = '<a href="/uploads/'+filename+'">'+filename+'</a>';
+            socket.to(data.sender).emit('receiveMsg',msg);
+            saveData(data.sender , data.receiver , filename);
+        });
 
     }); //ss(socket)
 

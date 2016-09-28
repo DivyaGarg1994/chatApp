@@ -22,8 +22,10 @@ router.get('/singleChat',function(req,res,next){
 router.get('/download', function(req,res,next){
     var file = req.query.filenames;
     console.log(file);
-  //  res.download('__dirname/file', 'report.pdf');
-    res.send("-------");
+    var path1 = __dirname+'/uploads/'+file;
+    console.log(path1);
+  //  res.download(path);
+    res.sendFile(path1);
 });
 
 module.exports = router;
