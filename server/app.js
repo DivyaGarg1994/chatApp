@@ -8,8 +8,10 @@ var mongoose = require('mongoose');
   var ss = require('socket.io-stream');
 
 var routes = require('./routes/index');
+//var api = require('./routes/api');
 var users = require('./routes/users');
 var chat = require('./routes/chat');
+var auth = require('./config/auth');
 
 var app = express();
 
@@ -27,13 +29,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(express.static(path.join(__dirname, 'uploads')));
-
-// app.use('/', routes);
 app.use('/', users);
+
+// app.get('/api', auth().authenticate(), function(req, res) {
+//     console.log("-----------");
+//     res.json(req.id);
+// });
+// app.get('/', auth().authenticate('jwt',{session:false}),function(req, res) {
+//     res.json(req.user.id);
+// });
 app.use('/chat',chat);
 
-var loggedUser = ["divya"];
+
 
 //mongo db connection established
 var mongoose = require('mongoose');

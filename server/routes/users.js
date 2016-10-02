@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var app = require('../app');
+var jwt = require("jwt-simple");
+var cfg = require("../config/config.js");
 
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
- var UserModel = require('../model/UserSchema');
+var passport = require('passport');
+var UserModel = require('../model/UserSchema');
 
 /* login page */
  router.get('/', function(req, res, next) {
@@ -42,10 +43,18 @@ router.post('/newRegister', function(req, res, next) {
 
       UserModel.findOne({ 'name': req.body.username,'password': req.body.password},function (err, users) {
           if (err || users==null) {
+            console.log("---fail-----");
             res.redirect('/');
           }
           else{
-            res.redirect('/chat/user?username='+req.body.username);
+            var payload = {name: users.name};
+            console.log("----success-------");
+            var token = jwt.encode(payload,cfg.jwtSecret);
+            res.json({sucess:true ,token: token});
+
+          //  res.redirect('/chat/user?username='+req.body.username);
+            // res.json({success:true ,token: token});
+            // res.render('index');
           }
         });
 
