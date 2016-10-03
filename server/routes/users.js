@@ -44,17 +44,14 @@ router.post('/newRegister', function(req, res, next) {
       UserModel.findOne({ 'name': req.body.username,'password': req.body.password},function (err, users) {
           if (err || users==null) {
             console.log("---fail-----");
-            res.redirect('/');
+            res.json({sucess:false ,token: token,user:"no"});
           }
           else{
             var payload = {name: users.name};
             console.log("----success-------");
             var token = jwt.encode(payload,cfg.jwtSecret);
-            res.json({sucess:true ,token: token});
+            res.json({sucess:true ,token: token,user:users});
 
-          //  res.redirect('/chat/user?username='+req.body.username);
-            // res.json({success:true ,token: token});
-            // res.render('index');
           }
         });
 

@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="chat">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/bower_components/angular-material/angular-material.min.css">
+  </head>
+
+  <body>
+    <div>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <span>Collaba chat App</span>
+          <span flex></span>
+          <a ng-href="#/">Login</a>
+          <a ng-href="#/register">Register</a>
+        </div>
+      </md-toolbar>
+
+    </div>
+    <div ng-view=""></div>
+
+
+    <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-material/angular-material.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-messages/angular-messages.min.js"></script>
+    <script type="text/javascript" src="/app.js"></script>
+    <script type="text/javascript" src="/controllers/login.controller.js"></script>
+    <script type="text/javascript" src="/controllers/register.controller.js"></script>
+    <script type="text/javascript" src="/services/login.service.js"></script>
+  </body>
+</html>
