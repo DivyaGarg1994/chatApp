@@ -1,14 +1,16 @@
-chat.controller('ChatController',function($scope,$routeParams,mySocket,$localStorage,$http){
-
+chat.controller('ChatController',function($scope,$routeParams,mySocket,$location,$localStorage,$http,$window){
+  $scope.chatBoxes = [];
   var activeUser = $localStorage.username;
+
+  // logout
   $scope.logout = function(){
+      mySocket.emit("logout",{name:$localStorage.username});
+
       delete $localStorage.token;
       delete $localStorage.username;
 
-      console.log("delete token "+$localStorage.token);
-      console.log("delete user "+$localStorage.username);
       $http.defaults.headers.common.Authorization = null;
-
+      $location.url("/");
   }
 
 /* To send a request to get a list of all logged in users*/
@@ -19,6 +21,22 @@ chat.controller('ChatController',function($scope,$routeParams,mySocket,$localSto
     console.log("--rid--"+msg.receiverId);
     console.log("--sid---"+msg.senderId);
     console.log("--sname--"+msg.senderName);
+
+    $scope.ShowConfirm = function () {
+              if ($window.confirm(msg.senderName +" is requesting a chat with you .Please confirm or deny.")) {
+                console.log("You clicked YES.");
+                $scope.chatBoxes.push(msg);
+                mySocket.emit("accept-request",{receiveId:msg.receiverId , senderId:msg.senderId , senderName:msg.senderName});
+              } else {
+                  console.log("You clicked NO.");
+              }
+          }
+          $scope.ShowConfirm();
+  });
+
+/* request sent has been accepted*/
+  mySocket.on("my-accepted",function(msg){
+
   });
 
 /* To get a list of loggedin users from server*/

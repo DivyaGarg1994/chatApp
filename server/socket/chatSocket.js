@@ -6,16 +6,28 @@ module.exports = function(ioConn){
 
   var logUser = [];
   ioConn.on('connection' , function(socket){
+
+    function deleteUser(user){
+      var index;
+        for(var i=0 ; i<logUser.length ; i++)
+        {
+          if(logUser[i].name == user)
+            index = i;
+        }
+        logUser.splice(index,1);
+        socket.broadcast.emit('send-logInArr',logUser);
+        socket.emit('send-logInArr',logUser);
+    }
+
+
+    /* when user is logout */
+    socket.on("logout",function(msg){
+        deleteUser(msg.name);
+    });
+
+    /* when user is disconnected */
     socket.on('disconnect', function(){
-    var index;
-      for(var i=0 ; i<logUser.length ; i++)
-      {
-        if(logUser[i].name == socket.name)
-          index = i;
-      }
-      logUser.splice(index,1);
-      socket.broadcast.emit('send-logInArr',logUser);
-      socket.emit('send-logInArr',logUser);
+      deleteUser(socket.name);
     });  // on disconnect
 
 
@@ -78,15 +90,13 @@ module.exports = function(ioConn){
 
 // request for a chat
     socket.on("chat-request",function(msg){
-      console.log("msg === msg =="+msg);
         socket.to(msg.receiverId).emit("request-chatMessage",{"receiverId":msg.receiverId,"senderId":msg.senderId,"senderName":msg.senderName});
     });
 
 
-// request accpeted
-    socket.on("acceptedRequest",function(msg){
-      socket.to(msg.senderId).emit("acceptedReq",{"receiverId":msg.receiverId,"senderId":msg.senderId});
-
+// request accepted
+    socket.on("accept-request",function(msg){
+      socket.to(msg.senderId).emit("my-accepted",{"receiverId":msg.receiverId,"senderId":msg.senderId});
     });
 
 
