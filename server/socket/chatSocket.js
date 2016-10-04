@@ -6,9 +6,7 @@ module.exports = function(ioConn){
 
   var logUser = [];
   ioConn.on('connection' , function(socket){
-
     socket.on('disconnect', function(){
-
     var index;
       for(var i=0 ; i<logUser.length ; i++)
       {
@@ -16,8 +14,8 @@ module.exports = function(ioConn){
           index = i;
       }
       logUser.splice(index,1);
-      socket.broadcast.emit('logarr',logUser);
-      socket.emit('logarr',logUser);
+      socket.broadcast.emit('send-logInArr',logUser);
+      socket.emit('send-logInArr',logUser);
     });  // on disconnect
 
 
@@ -35,7 +33,7 @@ module.exports = function(ioConn){
 
   //text msg
     socket.on('message', function(msg){
-
+      console.log("========jjj======");
       saveData(msg.receiveFrom , msg.sendTo , msg.message);
       socket.to(msg.sendTo).emit('receiveMsg',msg.message);
     });
@@ -53,7 +51,7 @@ module.exports = function(ioConn){
     // });
 
 // list out logged in user
-    socket.on('logged',function(msg){
+    socket.on('logged-user',function(msg){
       var flag=0;
       logUser.forEach(function(el){
             if(el.name == msg)
@@ -72,15 +70,16 @@ module.exports = function(ioConn){
 
       logUser.push(user);
       socket.name = msg;
-      socket.broadcast.emit('logarr',logUser);
-      socket.emit('logarr',logUser);
+      console.log("log array ="+logUser);
+      socket.broadcast.emit('send-logInArr',logUser);
+      socket.emit('send-logInArr',logUser);
     }
 
 
 // request for a chat
-    socket.on("requestChat",function(msg){
-
-        socket.to(msg.receiverId).emit("requestChatMessage",{"receiverId":msg.receiverId,"senderId":msg.senderId,"senderName":msg.senderName});
+    socket.on("chat-request",function(msg){
+      console.log("msg === msg =="+msg);
+        socket.to(msg.receiverId).emit("request-chatMessage",{"receiverId":msg.receiverId,"senderId":msg.senderId,"senderName":msg.senderName});
     });
 
 

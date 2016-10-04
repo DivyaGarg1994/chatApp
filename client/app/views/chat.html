@@ -1,1 +1,33 @@
-chat app
+<div layout="row" layout="column" layout-align="center center">
+
+  <!-- <div flex="33" md-colors="{background:'red-A100' , 'border-color': 'primary-600'}"> -->
+  <div flex="20">
+
+      <md-button class="md-secondary" ng-click=logout()>Log Out</md-button>
+        <br><br>
+      {{users}}
+      <br><br>
+      <div class="md-theme-light">List of logged in Users :</div>
+      <md-content>
+    <md-list>
+      <md-list-item class="md-3-line" ng-repeat="users in msg">
+        <div class="md-list-item-text">
+          <h3>{{users.name}}</h3>
+        </div>
+        <md-button class="md-secondary" ng-click="connect(users)">Connect</md-button>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-content>
+
+      <!-- <md-list >
+        <md-list-item class="md-2-line" ng-repeat="users in msg">
+          <div class="md-list-item-text">
+            <h3>{{users.name}}</h3>
+            <p><div ng-click="connect(users)">Connect</div></p>
+          </div>
+        </md-list-item>
+      </md-list> -->
+  </div>
+  <div flex="70">
+  </div>

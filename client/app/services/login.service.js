@@ -4,9 +4,13 @@ chat.service('loginService',function($http){
       return $http.post("/login",user).then(SuccessFunction , FailureFunction);
     };
 
+    this.getAuthentication = function(){
+      return $http.get("/chat/chatPage").then(SuccessFunction , FailureFunction);
+    }
   });
 
   function SuccessFunction(data){
+    console.log(data.data);
     return data.data;
   }
 

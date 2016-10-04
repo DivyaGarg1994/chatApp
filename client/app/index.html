@@ -14,8 +14,8 @@
           <a ng-href="#/register">Register</a>
         </div>
       </md-toolbar>
-
     </div>
+
     <div ng-view=""></div>
 
 
@@ -25,9 +25,16 @@
     <script type="text/javascript" src="/bower_components/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular-messages/angular-messages.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-socket-io/socket.js"></script>
+    <script type="text/javascript" src="/bower_components/ngstorage/ngStorage.js"></script>
     <script type="text/javascript" src="/app.js"></script>
+    <script src="/js/socket.io.js"></script>
     <script type="text/javascript" src="/controllers/login.controller.js"></script>
     <script type="text/javascript" src="/controllers/register.controller.js"></script>
+    <script type="text/javascript" src="/controllers/chat.controller.js"></script>
     <script type="text/javascript" src="/services/login.service.js"></script>
+    <script type="text/javascript" src="/services/chat.service.js"></script>
+    <script type="text/javascript" src="/services/register.service.js"></script>
+
   </body>
 </html>

@@ -5,13 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-  var ss = require('socket.io-stream');
+var ss = require('socket.io-stream');
 
 var routes = require('./routes/index');
-//var api = require('./routes/api');
 var users = require('./routes/users');
 var chat = require('./routes/chat');
-var auth = require('./config/auth');
+var auth = require('./config/auth')();
 
 var app = express();
 
@@ -29,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client/app')));
 app.use(express.static(path.join(__dirname, '../client')));
+app.use(auth.initialize());
 
 app.use('/', users);
 

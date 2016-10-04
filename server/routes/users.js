@@ -29,28 +29,30 @@ router.post('/newRegister', function(req, res, next) {
 
     //save a user
       newUser.save(function (err,newUser){
-          if(err) return console.log(err);
+          if(err){
+            res.json({success:false});
+          }
           else {
             console.log("..........save success...........");
+            res.json({success:true});
           }
       });
-      res.redirect('/');
+
 }); //register
 
 
  /*   validate user from login   */
     router.post('/login', function(req, res, next) {
-
       UserModel.findOne({ 'name': req.body.username,'password': req.body.password},function (err, users) {
           if (err || users==null) {
             console.log("---fail-----");
-            res.json({sucess:false ,token: token,user:"no"});
+            res.json({success:false ,token:null,user:"no"});
           }
           else{
             var payload = {name: users.name};
             console.log("----success-------");
             var token = jwt.encode(payload,cfg.jwtSecret);
-            res.json({sucess:true ,token: token,user:users});
+            res.json({success:true ,token: token,user:users});
 
           }
         });

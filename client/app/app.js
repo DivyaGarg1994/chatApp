@@ -1,4 +1,4 @@
-var chat = angular.module('chat',['ngRoute' , 'ngMaterial'])
+var chat = angular.module('chat',['ngRoute' , 'ngMaterial' ,'btford.socket-io','ngStorage'])
   .config(function($routeProvider,$locationProvider){
 
     $routeProvider
